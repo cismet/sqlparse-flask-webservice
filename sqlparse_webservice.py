@@ -14,5 +14,5 @@ def warmup():
     return make_response('polishing chrome')
 
 if __name__ == '__main__':    
-    app.run(host='0.0.0.0')
+    app.run(host='5.9.40.169')
 
