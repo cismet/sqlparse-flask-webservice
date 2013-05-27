@@ -27,13 +27,6 @@ EXAMPLES_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../examp
 
 @legacy.route('/', methods=['POST', 'GET'])
 def index():
-    #data = {'examples': _get_examples()}
-    data = {'examples': "None"}
-    extra = {'highlight': True, 'comments': False,
-             'keywords': 'upper', 'idcase': '',
-             'n_indents': '2',
-             'lang': 'sql'}
-    sql_orig = 'select * from foo join bar on val1 = val2 where id = 123;'
     if request.method == 'POST':
         oformat = request.form.get('format', 'html')
         extra['highlight'] = 'highlight' in request.form
@@ -53,23 +46,8 @@ def index():
                                           content_type='text/x-json'))
         elif oformat == 'text':
             return make_response(Response(data['output'], content_type='text/plain'))
-    data['sql_orig'] = sql_orig
-    data['extra'] = extra
-    return render_template('index.html', **data)
 
-
-@legacy.route('/source/')
-def source():
-    return render_template('source.html')
-
-
-@legacy.route('/about/')
-def about():
-    return render_template('about.html')
-
-@legacy.route('/api/')
-def api():
-    return render_template('api.html')
+    return render_template('index.html')
 
 
 @legacy.route('/format/', methods=['GET', 'POST'])

@@ -1,106 +1,69 @@
 {% extends "master.html" %}
 
+{% block title %}SQLFormat - API Documentation{% endblock %}
+
 {% block main %}
+<h1>API Documentation</h1>
 
-{% if output %}
-  <a href="#output" class="skip">Jump to formatted query</a>
-{% endif %}
+<p>
+  Using the API for this application is pretty simple. Just send a
+  request to
+</p>
+<p>
+  <code>http://sqlformat-api.cismet.de/format/</code>
+</p>
 
-<form method="post" action="" id="form_options" enctype="multipart/form-data">
-  <div id="input">
-    <div>
-      <strong>Type your SQL here:</strong><br />
-	  <textarea id="id_data" rows="10" cols="40" name="data" class="resizable">{{ sql_orig }}</textarea>
-    </div>
-    <div style="margin-top: .5em;">
-      <strong>...or upload a file:</strong>
-      <input type="file" name="datafile" id="id_datafile" />
-    </div>
-    <div id="examples" style="margin-top: .5em;"></div>
-    <div id="actions" style="margin-top: .5em;">
-      <input type="submit" value="Format SQL" id="btn_format" />
-    </div>
-    {% if output %}<a name="output"></a>
-    <div id="response">{{output|safe}}</div>
-    {% else %}
-    <div id="response"></div>
-    {% endif %}
-    <div id="proc_time">
-      {% if proc_time %}Processed in {{proc_time}} seconds.{% endif %}
-    </div>
+<h2>Options</h2>
+<p>
+  The server accepts various options to control formatting. Only
+  the <em>data</em> option is required. All others are optional.<br />
+  Either use <code>GET</code> and pack the options in the query string
+  or <code>POST</code> and submit your parameters as form data.<br />
+  When using <code>POST</code> make sure your request includes a
+  <em>Content-Type: application/x-www-form-urlencoded</em> header.
+</p>
 
-  </div>
-  <div id="options">
-    <h1 class="skip">Options</h1>
-    <fieldset><legend id="general"><strong>General Options</strong></legend>
-      <div id="general_content" class="content">
-      <input type="checkbox" id="id_remove_comments" name="remove_comments" value="1" {% if extra.comments %}checked="checked"{% endif %}/>
-      <label for="id_remove_comments">Remove comments</label>
-      <br />
-      <input type="checkbox" id="id_highlight" name="highlight" value="1" {% if extra.highlight %}checked="checked"{% endif %} />
-      <label for="id_highlight">Enable syntax highlighting</label>
-      </div>
-    </fieldset>
-    <fieldset><legend id="kwcase">
-	<strong>Keywords &amp; Identifiers</strong></legend>
-      <div>
-	  Keywords: <select id="id_keyword_case" name="keyword_case">
-			<option value="">Unchanged</option>
-			<option value="lower" {% if extra.keywords == 'lower' %}selected="selected"{% endif %}>Lower case</option>
-			<option value="upper"  {% if extra.keywords == 'upper' %}selected="selected"{% endif %}>Upper case</option>
-			<option value="capitalize"  {% if extra.keywords == 'capitalize' %}selected="selected"{% endif %}>Capitalize</option>
-	  </select>
-	</div>
-	<div>
-	  Identifiers: <select name="identifier_case" id="id_identifier_case">
-		<option value="">Unchanged</option>
-		<option value="lower" {% if extra.idcase == 'lower' %}selected="selected"{% endif %}>Lower case</option>
-		<option value="upper" {% if extra.idcase == 'upper' %}selected="selected"{% endif %}>Upper case</option>
-		<option value="capitalize" {% if extra.idcase == 'capitalize' %}selected="selected"{% endif %}>Capitalize</option>
-	  </select>
-	</div>
-    </fieldset>
-    <fieldset><legend id="indent"><strong>Indentation &amp; Margins</strong>
-	</legend>
-	  <div id="indent_content" class="content">
-	    <label for="id_n_indents">Indentation: </label>
-	    <input name="n_indents" value="{{extra.n_indents}}" maxlength="2" type="text" id="id_n_indents" size="2" /> spaces
-	    <div class="help">Empty field means leave indentation unchanged.</div>
-	  </div>
-    </fieldset>
-    <fieldset><legend id="output"><strong>Output Format</strong></legend>
-      <label for="id_output_format">Language: </label>
-	  <select name="output_format" id="id_output_format">
-		<option value="sql" {% if extra.lang == 'sql' %}selected="selected"{% endif %}>SQL</option>
-		<option value="python" {% if extra.lang == 'python' %}selected="selected"{% endif %}>Python</option>
-		<option value="php" {% if extra.lang == 'php' %}selected="selected"{% endif %}>PHP</option>
-	  </select>
-    </fieldset>
+<dl>
+  <dt>data</dt>
+  <dd>The SQL statement to format.</dd>
+  <dt>remove_comments</dt>
+  <dd>Set to 1 to remove comments.</dd>
+  <dt>keyword_case</dt>
+  <dd>How to convert keywords. Allowed values are 'lower', 'upper',
+    'capitalize'.</dd>
+  <dt>identifier_case</dt>
+  <dd>How to convert identifiers. Allowed values are 'lower', 'upper',
+    'capitalize'.</dd>
+  <dt>n_indents</dt>
+  <dd>An integer indicating the indendation depth.</dd>
+  <dt>right_margin</dt>
+  <dd>An integer indicating the maximum line length.</dd>
+  <dt>output_format</dt>
+  <dd>Transfer the statement into another programming language.
+    Allowed values are 'python', 'php'</dd>
+</dl>
 
-    <div class="dev">This software is in development.</div>
+<h2>Example</h2>
+<p>
+  Here's a example in Python:
+</p>
+{% include "python-client-example.html" %}
+<p>
+  <a href="/static/sqlformat_client_example.py">Download sqlformat_example_client.py</a>
+</p>
 
-	<div>
-	  <g:plusone size="medium"></g:plusone>
-	  <a href="http://flattr.com/thing/350724/SQLFormat-Online-SQL-formatting-service" target="_blank">
-		<img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" />
-	  </a>
-	</div>
-	<div style="padding-top: 15px;">
-	  <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="andialbrecht">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-	</div>
-  </div>
-  <div class="clearfix"></div>
-</form>
+<p>
+  And another example using curl and a <code>GET</code> request:
+</p>
+<div class="highlight example"><pre>
+$ curl "http://sqlformat-api.cismet.de/format/<b>?</b>keyword_case=upper<b>&</b>reindent=true<b>&</b>data=select%20*%20from%20foo;"
+SELECT *
+FROM foo;
+$
+</pre></div>
 
-<script language="javascript">
-html = '<strong>...or select an example:</strong> ';
-html = html + '<select onchange="load_example();" id="sel_example">';
-html = html + '<option value="">-- Choose Example --</option>';
-{% for ex in examples %}
-  html = html + '<option value="{{ex}}">{{ex}}</option>';
-{% endfor %}
-html = html + '</select>';
-$('#examples').html(html);
-</script>
+<h2>Acknowledgment</h2>
+<p>
+The API and this website were originally created by Andi Albrecht. His project can be found on <a href="https://github.com/andialbrecht/sqlparse"> GitHub </a>.
+</p>
 {% endblock %}
-

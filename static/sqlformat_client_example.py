@@ -3,7 +3,7 @@
 import urllib
 import urllib2
 
-REMOTE_API = 'http://sqlformat.appspot.com/format/'
+REMOTE_API = 'http://sqlformat-api.cismet.de/format/'
 
 payload = (
     ('data', 'select * from foo join bar on val1 = val2 where id = 123;'),
