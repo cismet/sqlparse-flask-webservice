@@ -1,28 +1,17 @@
 <html>
   <head>
     <title>{% block title %}SQLFormat - Online SQL Formatter{% endblock %}</title>
-    <meta name="keywords" content="SQL, format, parse, python, beautify, pretty, online, formatting, formatter" />
-    <meta name="description" content="Easy to use web service to format SQL statements." />
     <link rel="stylesheet" href="/static/pygments.css" />
     <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="shortcut icon" href="/static/favicon_cismet.ico" type="image/x-icon" >
+    <link rel="icon" type="image/x-icon" href="/static/favicon_cismet.ico">
     <script src="http://www.google.com/jsapi"></script>
     <script>
       google.load("jquery", "1.2.6");
     </script>
-    <script src="/static/hotkeys.js"></script>
     <script src="/static/script.js"></script>
   </head>
   <body>
-
-    <div id="help">
-      <p>Keyboard Shortcuts</p>
-      <p>
-	<span class="shortcut">H</span> - Show / hide this help window<br/>
-	<span class="shortcut">Ctrl+F</span> - Format SQL and display result<br/>
-	<span class="shortcut">O</span> - Show / hide options<br/>
-	<span class="shortcut">T</span> - Set focus on SQL input<br/>
-      </p>
-    </div>
 
     <div id="header">
       <div id="header-inner">
